@@ -1,0 +1,13 @@
+defaults: &defaults
+  host: flame.mongohq.com
+  port: 27057
+  username: coderzach
+  password: <<PW HERE>>
+
+development:
+  <<: *defaults
+  database: surveyTrain
+
+test:
+  <<: *defaults
+  database: surveyTrainTest
