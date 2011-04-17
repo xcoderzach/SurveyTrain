@@ -51,6 +51,10 @@ var LiveView
   LiveView = function(template, data) {
     this.context = $(template)
     this.hiddenElements = {}
+    //shorthand for an array of strings
+    if(typeof data === "string") {
+      data = {value: data}
+    }
     each(data, function(key, value) { 
       if(isArray(value)) {
         this[key] = new LiveViewCollection(this.getElementFromName(key, this.context), value)
@@ -101,6 +105,11 @@ var LiveView
       each(name, this.set, this)
     } else {
       var element = this.getElementFromName(name, this.context)
+
+      if(value.hasOwnProperty("mapper")) {
+        value = value.mapper(value)
+        delete value.mapper
+      }
 
       if(typeof value == "boolean") {
         value = {visible: value}
