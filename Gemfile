@@ -9,7 +9,8 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'bson_ext'
 gem 'mongo_mapper'
 gem 'formtastic'
-gem 'SystemTimer', '>= 1.2.0'
+gem 'jquery-rails', '>= 0.2.6'
+
 # Use unicorn as the web server
 # gem 'unicorn'
 
