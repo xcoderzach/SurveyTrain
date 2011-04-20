@@ -5,5 +5,6 @@ class Survey
   key :participant_name, String
 
   many :questions
+  many :surveys
 end
 

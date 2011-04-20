@@ -9,16 +9,8 @@ class SurveysController < ApplicationController
     respond_with @survey = Survey.where(:id => params[:id])
   end 
 
-  def new
-    respond_with @survey = Survey.new
-  end 
- 
   def create
     respond_with @survey = Survey.create(params[:survey])
-  end 
-
-  def edit
-    respond_with @survey = Survey.where(:id => params[:id])
   end 
 
   def update

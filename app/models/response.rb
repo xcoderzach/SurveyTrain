@@ -1,7 +1,7 @@
 class Response
   include MongoMapper::Document
 
-  key :survey_id, Mongo::ObjectID
+  key :survey_id, ObjectId
   belongs_to :survey
   timestamps!
 end
