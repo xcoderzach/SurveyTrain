@@ -5,3 +5,9 @@ Survey.first = function(callback) {
     callback(data[0])
   })
 }
+
+Survey.all = function(callback) {
+  $.get("/surveys.json", function(data) {
+    callback(data)
+  })
+} 
