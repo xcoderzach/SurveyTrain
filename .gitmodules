@@ -1,0 +1,6 @@
+[submodule "public/js/libs/LiveController"]
+	path = public/js/libs/LiveController
+	url = git@github.com:xcoderzach/LiveController.git
+[submodule "public/js/libs/LiveView"]
+	path = public/js/libs/LiveView
+	url = git@github.com:xcoderzach/LiveView.git

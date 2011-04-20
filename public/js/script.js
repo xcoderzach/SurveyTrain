@@ -1,4 +1,3 @@
 $(function(){
-  var surveyController = new SurveyController()
-  surveyController.show()
+  Controller.get("/surveys")
 })
