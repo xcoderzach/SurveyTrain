@@ -1,4 +1,4 @@
-Controller("/surveys", function(survey) {
+var SurveyController = new Controller("/surveys", function(survey) {
 
   survey.post(function(params) {
     Survey.create(params["survey"], function(survey) {
@@ -7,8 +7,8 @@ Controller("/surveys", function(survey) {
   })
 
   survey.get(function(params) {
-    Survey.all(function(survey) {
-      var surveyView = new SurveyView(survey)
+    Survey.all(function(surveys) {
+      var surveyView = new SurveyView(surveys)
     })
   }) 
 
@@ -18,4 +18,4 @@ Controller("/surveys", function(survey) {
     })
   }) 
 
-}
+})
