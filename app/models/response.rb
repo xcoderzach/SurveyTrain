@@ -1,10 +1,7 @@
 class Response
   include MongoMapper::Document
 
-  key  :title,            String
-  key  :participant_name, String
-
-  one  :survey
-  many :questions
+  key :survey_id, ObjectId
+  belongs_to :survey
+  timestamps!
 end
-  

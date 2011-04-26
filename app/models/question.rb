@@ -1,8 +1,9 @@
 class Question
-  include MongoMapper::EmbeddedDocument
+  include MongoMapper::Document
 
   key :question,    String
-  key :response,    String
   key :type,        String
-  key :options,     Array
+
+  key :survey_id, ObjectId
+  belongs_to :survey
 end
