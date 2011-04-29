@@ -9,7 +9,7 @@ if (typeof Object.create !== 'function') {
 var SurveyManager = function () {
 	function nextPointer(sm, q_id, response) {
 		var next = sm.questions[q_id].next
-		if (typeof(next) === "string") {
+		if (typeof(next) !== "object") {
 			return next
 		} else {
 			return next[response]
@@ -22,7 +22,8 @@ var SurveyManager = function () {
 				_id: this.id,
 				survey_id: this.survey._id,
 				responses: this.responses,
-				done: this.done
+				done: this.done,
+				pointer: this.pointer
 			}
 		},
 		getTitle: function () {
@@ -35,7 +36,7 @@ var SurveyManager = function () {
 			var q = this.questions[this.pointer]
 			return {
 				text: q.text,
-				type: q.type
+				type: q.type,
 				options: q.options
 			}
 		},
@@ -82,6 +83,7 @@ var SurveyManager = function () {
 			this.responses[num].response = response
 			if (currentNext !== computedNext) {
 				this.responses = this.responses.slice(0, num+1)
+				this.pointer = computedNext
 			}
 		},
 		finalize: function () {
@@ -98,7 +100,7 @@ var SurveyManager = function () {
 		var res = Object.create(proto)
 		var questions = {}
 		var i
-		res.survery = survey
+		res.survey = survey
 		res.id = responses._id
 		res.done = responses.done
 		res.responses = responses.responses
@@ -107,7 +109,7 @@ var SurveyManager = function () {
 			questions[survey.questions[i]._id] = survey.questions[i]
 		}
 		res.questions = questions
-		res.pointer = survey.first_question
+		res.pointer = responses.pointer || survey.first_question
 
 		return res
 	}
