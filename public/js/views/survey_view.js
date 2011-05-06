@@ -24,15 +24,23 @@ var SurveyView = function(data, response) {
 
     question["index"] = {value: i}
     delete question["text"]
-    question["response"] = { 
-      "name": "response[answers][" + i + "][response]" 
-    , "value": question.response
+    if(question.type == "text") {
+      question["respon"] = { 
+        "name": "response[answers][" + i + "][response]" 
+      , "value": question.response
+      }
     }
     if(question.type === "radio") {
+      question["respon"] = { 
+        "name": "response[answers][" + i + "][response]"  
+      }
+      console.log(question.options)
       for(index in question.options) {
+        var val = question.options[index] 
+        console.log(val)
         question.options[index] = {
-          "value": question.options[index]
-        , "response": { "value": question.options[index] }
+          "value": val
+        , "respon": { "value": val }
         }
       }
     }
@@ -50,7 +58,6 @@ var SurveyView = function(data, response) {
       , val
       , inputs = $("input[type!=hidden]", questions)
     if(inputs.length > 1) {
-      console.log(inputs.filter(":checked"))
       val = inputs.filter(":checked").val()
     } else {
       console.log("b")
@@ -62,6 +69,9 @@ var SurveyView = function(data, response) {
 
     manager.getResponses().forEach(function(question) {
       that.view.questions.append(mapQuestion(question))
+      if(question.type === "radio") {
+        $(".question:last input[value=" + question.response + "]").attr("checked", true)
+      }
     })
     if(manager.getCurrentQuestion() !== undefined) {
       that.view.questions.append(mapQuestion(manager.getCurrentQuestion()))
