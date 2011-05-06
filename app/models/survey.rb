@@ -4,7 +4,7 @@ class Survey
   key :title, String
   key :participant_name, String
 
+  key :first_question_id, ObjectId
   many :questions
-  many :surveys
 end
 

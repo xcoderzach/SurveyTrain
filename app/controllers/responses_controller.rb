@@ -4,5 +4,4 @@ class ResponsesController < ApplicationController
   def create
     respond_with @response = Response.create(params[:response])
   end 
- 
 end
