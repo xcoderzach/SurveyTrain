@@ -2,7 +2,7 @@ class SurveysController < ApplicationController
   respond_to :json, :html
 
   def index
-    respond_with @surveys = Survey.all
+    respond_with @surveys = Survey.all  
   end
 
   def show

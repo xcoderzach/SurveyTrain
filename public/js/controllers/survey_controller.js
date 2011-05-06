@@ -13,8 +13,10 @@ var SurveyController = new Controller("/surveys", function(survey) {
   }) 
 
   survey.get("/:id", function(params) {
-    Survey.first(function(survey) {
-      var surveyView = new SurveyView(survey)
+    Response.first(params["id"], function(response) {
+      Survey.first(function(survey) {
+        var surveyView = new SurveyView(survey, response)
+      })
     })
   }) 
 

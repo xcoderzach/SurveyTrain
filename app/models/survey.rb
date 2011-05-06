@@ -7,4 +7,3 @@ class Survey
   key :first_question_id, ObjectId
   many :questions
 end
-

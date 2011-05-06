@@ -1,3 +1,3 @@
 $(function(){
-  Controller.get("/surveys/1")
+  Controller.get("/surveys/1337")
 })

@@ -11,16 +11,18 @@ var SurveyManager = function () {
 		var next = sm.questions[q_id].next
 		if (typeof(next) !== "object") {
 			return next
-		} else {
+		} else if (next) {
 			return next[response]
-		}
+		} else {
+      return undefined
+    }
 	}
 
 	var proto = {
 		serializeResponse: function () {
 			return {
 				_id: this.id,
-				survey_id: this.survey._id,
+				survey_id: this.survey.id,
 				responses: this.responses,
 				done: this.done,
 				pointer: this.pointer
@@ -37,7 +39,7 @@ var SurveyManager = function () {
 			return {
 				text: q.text,
 				type: q.type,
-				options: q.options
+        options: q.options ? q.options.concat([]) : undefined
 			}
 		},
 		getResponses: function () {
@@ -54,7 +56,7 @@ var SurveyManager = function () {
 			return {
 				text: q.text,
 				type: q.type,
-				options: q.options,
+				options: q.options ? q.options.concat([]) : undefined,
 				response: res.response
 			}
 		},
@@ -101,12 +103,12 @@ var SurveyManager = function () {
 		var questions = {}
 		var i
 		res.survey = survey
-		res.id = responses._id
+		res.id = responses.id
 		res.done = responses.done
 		res.responses = responses.responses
 		
 		for (i = 0; i < survey.questions.length; i++) {
-			questions[survey.questions[i]._id] = survey.questions[i]
+			questions[survey.questions[i].id] = survey.questions[i]
 		}
 		res.questions = questions
 		res.pointer = responses.pointer || survey.first_question

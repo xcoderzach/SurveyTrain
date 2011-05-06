@@ -1,32 +1,73 @@
-var SurveyView = function(data) {
+var SurveyView = function(data, response) {
   var question
     , options
     , i = 0
-                      
-  data["survey_id"] = { "name": "response[survey_id]", "value": data.id }
-  data["survey_form"] = {
-    "action": "/responses.json"
-  , "method": "POST"
-  }
+    , that = this
 
-  for(question in data.questions) {
-    question = data.questions[question]
+  var manager = new SurveyManager(data, response)
+
+    data["survey_id"] = { "name": "response[survey_id]", "value": data.id }
+    data["survey_form"] = {
+      "action": "/responses.json"
+    , "method": "POST"
+    }
+  data.questions = manager.getResponses()
+
+  console.log(data.questions)
+
+  function mapQuestion(question) {
     question["question_id"] = { 
       "name": "response[answers][" + i + "][question_id]" 
     , "value": question.id
     }
+    question["question_text"] = question["text"]
+
+    question["index"] = {value: i}
+    delete question["text"]
     question["response"] = { 
       "name": "response[answers][" + i + "][response]" 
+    , "value": question.response
     }
     if(question.type === "radio") {
       for(index in question.options) {
         question.options[index] = {
           "value": question.options[index]
-        , "response": { "value": index }
+        , "response": { "value": question.options[index] }
         }
       }
     }
     i++
+    return question
   }
+
+  $("#survey input").not(":last").live("change", function() {
+    var index = $(".index", this).val()
+    manager.modifyResponse(index, $("input", this).val())
+  })
+
+  $("#survey button").click(function() {
+    var questions = $(".question:last")
+      , val
+      , inputs = $("input[type!=hidden]", questions)
+    if(inputs.length > 1) {
+      console.log(inputs.filter(":checked"))
+      val = inputs.filter(":checked").val()
+    } else {
+      console.log("b")
+      val = inputs.val()
+    }
+    manager.pushResponse(val)
+
+    that.view.questions.removeAll()
+
+    manager.getResponses().forEach(function(question) {
+      that.view.questions.append(mapQuestion(question))
+    })
+    if(manager.getCurrentQuestion() !== undefined) {
+      that.view.questions.append(mapQuestion(manager.getCurrentQuestion()))
+    }
+  })
+
   this.view = new LiveView($("#survey"), data)
+  this.view.questions.append(mapQuestion(manager.getCurrentQuestion()))
 }
